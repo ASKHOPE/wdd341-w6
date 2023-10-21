@@ -4,15 +4,105 @@
 GET http://localhost:8080/user
 
 ### GET user by id
-GET http://localhost:8080/user/kkk
+GET http://localhost:8080/user/Danel
 
 ### Create new user
 POST http://localhost:8080/user
 content-type: application/json
 
 {
-"username": "Dane", "password": "Mundane@12345"
+"username": "Danel", "password": "Mundane@12345"
 }
+
+
+### Update User
+PUT http://localhost:8080/user/danel HTTP/1.1
+content-type: application/json
+
+{
+  "_id": 0,
+  "username": "johnDoe123",
+  "password": "password123",
+  "displayName": "John Doe",
+  "info": {
+    "email": "john.doe@example.com",
+    "phoneNumber": "555-555-5555",
+    "currentLocation": "New York, NY",
+    "openToNewOpportunities": true,
+    "profileIsPublic": true,
+    "theme_name": "darkTheme"
+  },
+  "profile": {
+    "experience": [
+      {
+        "jobTitle": "Software Developer",
+        "jobDescription": "Developed and maintained web applications.",
+        "details": [
+          "Worked with a team of developers",
+          "Utilized agile methodologies"
+        ],
+        "dateStart": "January 2015",
+        "dateEnd": "December 2020",
+        "company": "Tech Corp",
+        "location": "New York, NY"
+      }
+    ],
+    "education": [
+      {
+        "institution": "State University",
+        "programTitle": "Bachelor of Science in Computer Science",
+        "programDescription": "Studied core computer science topics.",
+        "dateStart": "August 2010",
+        "dateEnd": "May 2014",
+        "completed": true,
+        "location": "Los Angeles, CA",
+        "topics": [
+          "Data Structures",
+          "Algorithms",
+          "Web Development"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "Portfolio Website",
+        "description": "A personal website to showcase my projects.",
+        "dateStart": "January 2021",
+        "dateEnd": "March 2021",
+        "githubUrl": "https://github.com/johndoe/portfolio-website",
+        "hostedUrl": "https://johndoe.dev",
+        "images": [
+          "https://johndoe.dev/images/project1.jpg"
+        ],
+        "skills": [
+          "HTML",
+          "CSS",
+          "JavaScript"
+        ]
+      }
+    ],
+    "skills": [
+      "Web Development",
+      "Problem Solving",
+      "Teamwork"
+    ],
+    "references": [
+      {
+        "name": "Jane Smith",
+        "relationship": "Former Supervisor",
+        "contactInfo": "jane.smith@example.com",
+        "yearsKnown": 5,
+        "knownFromWhere": "Tech Corp"
+      }
+    ]
+  }
+}
+
+
+### Delete User
+DELETE http://localhost:8080/user/Danel 
+
+
 
 #RENDER
 ### GET all users
@@ -28,3 +118,90 @@ content-type: application/json
 {
 "username": "Dane", "password": "Mundane@12345"
 }
+
+### Update User
+PUT https://w5-339j.onrender.com/user/dane
+content-type: application/json
+
+{
+  "_id": 0,
+  "username": "johnDoe123",
+  "password": "password123",
+  "displayName": "John Doe",
+  "info": {
+    "email": "john.doe@example.com",
+    "phoneNumber": "555-555-5555",
+    "currentLocation": "New York, NY",
+    "openToNewOpportunities": true,
+    "profileIsPublic": true,
+    "theme_name": "darkTheme"
+  },
+  "profile": {
+    "experience": [
+      {
+        "jobTitle": "Software Developer",
+        "jobDescription": "Developed and maintained web applications.",
+        "details": [
+          "Worked with a team of developers",
+          "Utilized agile methodologies"
+        ],
+        "dateStart": "January 2015",
+        "dateEnd": "December 2020",
+        "company": "Tech Corp",
+        "location": "New York, NY"
+      }
+    ],
+    "education": [
+      {
+        "institution": "State University",
+        "programTitle": "Bachelor of Science in Computer Science",
+        "programDescription": "Studied core computer science topics.",
+        "dateStart": "August 2010",
+        "dateEnd": "May 2014",
+        "completed": true,
+        "location": "Los Angeles, CA",
+        "topics": [
+          "Data Structures",
+          "Algorithms",
+          "Web Development"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "Portfolio Website",
+        "description": "A personal website to showcase my projects.",
+        "dateStart": "January 2021",
+        "dateEnd": "March 2021",
+        "githubUrl": "https://github.com/johndoe/portfolio-website",
+        "hostedUrl": "https://johndoe.dev",
+        "images": [
+          "https://johndoe.dev/images/project1.jpg"
+        ],
+        "skills": [
+          "HTML",
+          "CSS",
+          "JavaScript"
+        ]
+      }
+    ],
+    "skills": [
+      "Web Development",
+      "Problem Solving",
+      "Teamwork"
+    ],
+    "references": [
+      {
+        "name": "Jane Smith",
+        "relationship": "Former Supervisor",
+        "contactInfo": "jane.smith@example.com",
+        "yearsKnown": 5,
+        "knownFromWhere": "Tech Corp"
+      }
+    ]
+  }
+}
+
+
+### Delete User
+DELETE https://w5-339j.onrender.com/user/daneiel
