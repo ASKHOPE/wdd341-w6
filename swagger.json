@@ -12,8 +12,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "localhost:8080",
-  // "host": "w5-339j.onrender.com",
+  "host": "w6.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -29,7 +28,7 @@
       "description": "These API endpoints are designed and will be created in the near future"
     }
   ],
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
     "/theme/{themeName}": {
       "get": {
