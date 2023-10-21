@@ -1,0 +1,30 @@
+#LOCAL
+
+### GET all users
+GET http://localhost:8080/user
+
+### GET user by id
+GET http://localhost:8080/user/kkk
+
+### Create new user
+POST http://localhost:8080/user
+content-type: application/json
+
+{
+"username": "Dane", "password": "Mundane@12345"
+}
+
+#RENDER
+### GET all users
+GET https://w5-339j.onrender.com/user
+
+### GET user by id
+GET  https://w5-339j.onrender.com/user/kkk
+
+### Create new user
+POST  https://w5-339j.onrender.com/user
+content-type: application/json
+
+{
+"username": "Dane", "password": "Mundane@12345"
+}
