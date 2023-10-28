@@ -3,13 +3,13 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
-const mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
+const punycode = require("punycode/");
 
 require("dotenv").config();
 
 // Configure Passport (Optional)
 require("./auth/oauth.js");
-
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -17,9 +17,6 @@ const port = process.env.PORT || 8080;
 // Session and Passport Configuration
 const SECT_SRECT = process.env.SESSION_SECRET;
 const CRY_SRECT = process.env.CRYPTO_SECRET;
-// console.log(process.env.MONGO_API_KEY);
-// console.log("MongoDB Connection String:", process.env.MONGO_API_KEY);
-
 
 // Ensure that the session secret is set
 if (!SECT_SRECT) {
@@ -28,11 +25,11 @@ if (!SECT_SRECT) {
   );
   process.exit(1);
 }
+
 app.use(
   session({
     secret: SECT_SRECT,
     saveUninitialized: true,
-    strictQuery: true,
     resave: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_API_KEY,
@@ -90,13 +87,13 @@ app
   .use("/", isLoggedIn, require("./routes"));
 
 // Database Connection
-const db = require("./models");
-db.mongoose
-  .connect(db.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    strictQuery: true,
-  })
+const mongoClient = new MongoClient(process.env.MONGO_API_KEY, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoClient
+  .connect()
   .then(() => {
     app.listen(port, () => {
       console.log(`DB Connected and server running on ${port}.`);
