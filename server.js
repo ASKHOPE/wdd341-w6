@@ -3,22 +3,36 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
+const mongoose = require("mongoose");
+
 require("dotenv").config();
 
 // Configure Passport (Optional)
 require("./auth/oauth.js");
 
+
 const app = express();
 const port = process.env.PORT || 8080;
 
 // Session and Passport Configuration
-const SECT_SRECT = process.env.SECTION_SRECT;
-const CRY_SRECT = process.env.CRYPTO_SRECT;
+const SECT_SRECT = process.env.SESSION_SECRET;
+const CRY_SRECT = process.env.CRYPTO_SECRET;
+// console.log(process.env.MONGO_API_KEY);
+// console.log("MongoDB Connection String:", process.env.MONGO_API_KEY);
 
+
+// Ensure that the session secret is set
+if (!SECT_SRECT) {
+  console.error(
+    "Error: The session secret is not set. Please check your .env file."
+  );
+  process.exit(1);
+}
 app.use(
   session({
     secret: SECT_SRECT,
     saveUninitialized: true,
+    strictQuery: true,
     resave: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_API_KEY,
@@ -81,6 +95,7 @@ db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    strictQuery: true,
   })
   .then(() => {
     app.listen(port, () => {
@@ -88,6 +103,6 @@ db.mongoose
     });
   })
   .catch((err) => {
-    console.log("Cannot connect to the database!", err);
-    process.exit();
+    console.error("Cannot connect to the database!", err);
+    process.exit(1);
   });
