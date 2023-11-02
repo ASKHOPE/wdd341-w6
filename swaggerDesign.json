@@ -26,15 +26,11 @@
   "paths": {
     "/user": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Create user",
         "description": "This is for when a user creates an account.",
         "operationId": "createUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -59,14 +55,10 @@
         }
       },
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get all users",
         "operationId": "getAllUsers",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -85,14 +77,10 @@
     },
     "/user/{username}": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get user by user name",
         "operationId": "getUserByName",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "username",
@@ -104,14 +92,10 @@
         ],
         "/user/login": {
           "get": {
-            "tags": [
-              "Not Yet Implemented"
-            ],
+            "tags": ["Not Yet Implemented"],
             "summary": "Logs user into the system",
             "operationId": "loginUser",
-            "produces": [
-              "application/json"
-            ],
+            "produces": ["application/json"],
             "parameters": [
               {
                 "name": "username",
@@ -155,14 +139,10 @@
         },
         "/user/logout": {
           "get": {
-            "tags": [
-              "Not Yet Implemented"
-            ],
+            "tags": ["Not Yet Implemented"],
             "summary": "Logs out current logged in user session",
             "operationId": "logoutUser",
-            "produces": [
-              "application/json"
-            ],
+            "produces": ["application/json"],
             "parameters": [],
             "responses": {
               "default": {
@@ -187,15 +167,11 @@
         }
       },
       "put": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Updated user",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "username",
@@ -227,15 +203,11 @@
         }
       },
       "delete": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Delete user",
         "description": "This can only be done by the logged in user.",
         "operationId": "deleteUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "username",
@@ -260,14 +232,10 @@
     },
     "/user": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get all users",
         "operationId": "getAllUsers",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -282,15 +250,11 @@
         }
       },
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Create user",
         "description": "This is for when a user creates an account",
         "operationId": "createUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -314,14 +278,10 @@
     },
     "/user/logout": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Logs out the current logged-in user session",
         "operationId": "logoutUser",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successfully logged out"
@@ -331,134 +291,148 @@
           }
         }
       }
+    },
+    "/logout": {
+      "get": {
+        "tags": ["Logout"],
+        "summary": "Logs out current logged in user session",
+        "operationId": "logoutUser",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
-},
-"securityDefinitions": {
-"petstore_auth": {
-"type": "oauth2",
-"authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-"flow": "implicit",
-"scopes": {
-  "write:pets": "modify pets in your account",
-  "read:pets": "read your pets"
-}
-}
-},
-"definitions": {
-"User": {
-"type": "object",
-"required": [
-  "password",
-  "username"
-],
-"properties": {
-  "_id": {
-    "type": "integer",
-    "format": "string"
   },
-  "username": {
-    "type": "string"
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    }
   },
-  "password": {
-    "type": "string"
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": [
+        "password",
+        "username"
+      ],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "format": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "info": {
+          "$ref": "#/definitions/User_info"
+        },
+        "profile": {
+          "$ref": "#/definitions/User_profile"
+        }
+      }
+    },
+    "Credentials": {
+      "type": "object",
+      "required": [
+        "password",
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User_info": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "currentLocation": {
+          "type": "string"
+        },
+        "profileIsPublic": {
+          "type": "boolean"
+        }
+      }
+    },
+    "User_profile_education": {
+      "type": "object",
+      "properties": {
+        "institution": {
+          "type": "string"
+        },
+        "programTitle": {
+          "type": "string"
+        },
+        "programDescription": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    },
+    "Rank": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "level": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "level"
+      ]
+    }
   },
-  "displayName": {
-    "type": "string"
-  },
-  "info": {
-    "$ref": "#/definitions/User_info"
-  },
-  "profile": {
-    "$ref": "#/definitions/User_profile"
+  "User_profile": {
+    "type": "object",
+    "properties": {
+      "education": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User_profile_education"
+        }
+      },
+      "ranks": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Rank"
+        }
+      }
+    }
   }
-}
-},
-"Credentials": {
-"type": "object",
-"required": [
-  "password",
-  "username"
-],
-"properties": {
-  "username": {
-    "type": "string"
-  },
-  "password": {
-    "type": "string"
-  }
-}
-},
-"User_info": {
-"type": "object",
-"properties": {
-  "email": {
-    "type": "string"
-  },
-  "phoneNumber": {
-    "type": "string"
-  },
-  "currentLocation": {
-    "type": "string"
-  },
-  "profileIsPublic": {
-    "type": "boolean"
-  }
-}
-},
-"User_profile_education": {
-"type": "object",
-"properties": {
-  "institution": {
-    "type": "string"
-  },
-  "programTitle": {
-    "type": "string"
-  },
-  "programDescription": {
-    "type": "string"
-  },
-  "completed": {
-    "type": "boolean"
-  },
-  "location": {
-    "type": "string"
-  }
-}
-},
-"Rank": {
-"type": "object",
-"properties": {
-  "title": {
-    "type": "string"
-  },
-  "level": {
-    "type": "number"
-  },
-  "description": {
-    "type": "string"
-  }
-},
-"required": [
-  "title",
-  "level"
-]
-}
-},
-"User_profile": {
-"type": "object",
-"properties": {
-"education": {
-  "type": "array",
-  "items": {
-    "$ref": "#/definitions/User_profile_education"
-  }
-},
-"ranks": {
-  "type": "array",
-  "items": {
-    "$ref": "#/definitions/Rank"
-  }
-}
-}
-}
 }
