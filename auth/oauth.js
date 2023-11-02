@@ -36,17 +36,3 @@ passport.deserializeUser(function (user, done) {
 });
 
 
-// Define routes
-app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: false })
-);
-
-app.get('/logout', function(req, res){
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    res.redirect('/');
-  });
-});
-

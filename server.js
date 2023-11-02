@@ -4,7 +4,6 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const { MongoClient } = require("mongodb");
-const punycode = require("punycode/");
 
 require("dotenv").config();
 
@@ -67,12 +66,16 @@ app.get("/google/failure", (req, res) => {
 
 // Logout Route (Optional)
 app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.send("Goodbye! You have logged out.");
-  res.redirect("/");
+  req.logout(); // This should be used instead of destroying the session directly.
+  req.session.save((err) => {
+    // This ensures the session is saved before redirecting.
+    if (err) {
+      console.error(err);
+      return res.sendStatus(500);
+    }
+    res.redirect("/"); // This should come after res.logout
+  });
 });
-
-
 
 // isLoggedIn Middleware (Optional)
 function isLoggedIn(req, res, next) {
@@ -80,13 +83,13 @@ function isLoggedIn(req, res, next) {
 }
 
 // Body Parser and CORS Configuration
-app
-  .use(bodyParser.json())
-  .use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    next();
-  })
-  .use("/", isLoggedIn, require("./routes"));
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
+app.use("/", isLoggedIn, require("./routes")); // Assuming isLoggedIn is a global middleware.
 
 // Database Connection
 const mongoClient = new MongoClient(process.env.MONGO_API_KEY, {

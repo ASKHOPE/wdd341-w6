@@ -2,6 +2,28 @@ const db = require("../models");
 const User = db.user;
 const passwordUtil = require("../util/passwordComplexityCheck");
 
+router.post("/create", userController.create);
+// Define other routes and associate them with controller functions here
+
+// Define login and logout routes
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: false,
+  })
+);
+
+router.get("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
 module.exports.create = (req, res) => {
   try {
     if (!req.body.username || !req.body.password) {
@@ -120,4 +142,6 @@ module.exports.deleteUser = async (req, res) => {
       .status(500)
       .json(err || "Some error occurred while deleting the contact.");
   }
-};
+}
+
+;
