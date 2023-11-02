@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is an API server for a portfolio builder website.\n",
+    "description": "This is an api server for a portfolio builder website.\n",
     "version": "1.0.0",
     "title": "Portfolio Builder",
     "contact": {
@@ -16,12 +16,59 @@
   "basePath": "/",
   "tags": [
     {
+      "name": "theme",
+      "description": "Operations about themes"
+    },
+    {
       "name": "user",
       "description": "Operations about user"
+    },
+    {
+      "name": "Not Yet Implemented",
+      "description": "These API endpoints are designed and will be created in the near future"
     }
   ],
   "schemes": ["https"],
   "paths": {
+    "/theme/{themeName}": {
+      "get": {
+        "tags": ["theme"],
+        "summary": "Finds Themes by name",
+        "description": "Each theme has a unique name, this will basically find a single theme by an exact name almost like an id",
+        "operationId": "findThemeByName",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "themeName",
+            "in": "path",
+            "description": "Theme name string is required and functions as id",
+            "required": true,
+            "type": "string",
+            "items": {
+              "type": "string",
+              "default": "available"
+            },
+            "collectionFormat": "csv"
+          }
+        ],
+        "security": [
+          {
+            "petstore_auth": ["write:pets", "read:pets"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid theme name value"
+          }
+        }
+      }
+    },
     "/user": {
       "post": {
         "tags": ["user"],
@@ -42,52 +89,27 @@
         ],
         "responses": {
           "201": {
-            "description": "Successfully created user",
+            "description": "successfully created user",
             "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Invalid user supplied"
-          }
-        }
-      },
-      "get": {
-        "tags": ["user"],
-        "summary": "Get all users",
-        "operationId": "getAllUsers",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Nike Theme"
+                }
               }
             }
           },
-          "500": {
-            "description": "Error occurred"
+          "400": {
+            "description": "Invalid theme name value"
           }
         }
       }
     },
-      "/user/{username}": {
-      "get": {
-        "tags": ["user"],
-        "summary": "Get user by user name",
-        "operationId": "getUserByName",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched.",
-            "required": true,
-            "type": "string"
-          }
-        ],
     "/user/login": {
       "get": {
         "tags": ["Not Yet Implemented"],
@@ -149,7 +171,21 @@
         }
       }
     },
-  
+    "/user/{username}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user by user name",
+        "operationId": "getUserByName",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -313,7 +349,49 @@
         }
       }
     },
-
+    "Theme": {
+      "type": "object",
+      "required": ["colors", "fontFamily", "fontSize", "name"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "Nike Theme"
+        },
+        "fontSize": {
+          "type": "integer",
+          "example": 18
+        },
+        "fontFamily": {
+          "type": "string",
+          "example": "futura"
+        },
+        "inspiration": {
+          "type": "string",
+          "example": "https://www.nike.com/"
+        },
+        "colors": {
+          "type": "array",
+          "example": [
+            "",
+            "#111",
+            "#fff",
+            "#F5F3EE",
+            "#757575",
+            "#7e7e7e",
+            ", ",
+            ", ",
+            ""
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "Credentials": {
       "type": "object",
       "required": ["password", "username"],
@@ -338,8 +416,43 @@
         "currentLocation": {
           "type": "string"
         },
+        "openToNewOpportunities": {
+          "type": "boolean"
+        },
         "profileIsPublic": {
           "type": "boolean"
+        },
+        "theme_name": {
+          "type": "string"
+        }
+      }
+    },
+    "User_profile_experience": {
+      "type": "object",
+      "properties": {
+        "jobTitle": {
+          "type": "string"
+        },
+        "jobDescription": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dateStart": {
+          "type": "string"
+        },
+        "dateEnd": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
         }
       }
     },
@@ -355,43 +468,114 @@
         "programDescription": {
           "type": "string"
         },
+        "dateStart": {
+          "type": "string"
+        },
+        "dateEnd": {
+          "type": "string"
+        },
         "completed": {
           "type": "boolean"
         },
         "location": {
           "type": "string"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
-    "Rank": {
+    "User_profile_projects": {
       "type": "object",
       "properties": {
         "title": {
           "type": "string"
         },
-        "level": {
-          "type": "number"
-        },
         "description": {
           "type": "string"
+        },
+        "dateStart": {
+          "type": "string"
+        },
+        "dateEnd": {
+          "type": "string"
+        },
+        "githubUrl": {
+          "type": "string"
+        },
+        "hostedUrl": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
-      },
-      "required": ["title", "level"]
-    }
-  },
-  "User_profile": {
-    "type": "object",
-    "properties": {
-      "education": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/User_profile_education"
+      }
+    },
+    "User_profile_references": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "relationship": {
+          "type": "string"
+        },
+        "contactInfo": {
+          "type": "string"
+        },
+        "yearsKnown": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "knownFromWhere": {
+          "type": "string"
         }
-      },
-      "ranks": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Rank"
+      }
+    },
+    "User_profile": {
+      "type": "object",
+      "properties": {
+        "experience": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User_profile_experience"
+          }
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User_profile_education"
+          }
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User_profile_projects"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User_profile_references"
+          }
         }
       }
     }

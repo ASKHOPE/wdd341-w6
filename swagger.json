@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is an api server for a portfolio builder website.\n",
+    "description": "This is an API server for a Membership website.\n",
     "version": "1.0.0",
-    "title": "Portfolio Builder",
+    "title": "OnlyMembers",
     "contact": {
       "email": "kat21015@byui.edu"
     },
@@ -12,63 +12,16 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "w6.onrender.com",
+  "host": "localhost",
   "basePath": "/",
   "tags": [
     {
-      "name": "theme",
-      "description": "Operations about themes"
-    },
-    {
       "name": "user",
       "description": "Operations about user"
-    },
-    {
-      "name": "Not Yet Implemented",
-      "description": "These API endpoints are designed and will be created in the near future"
     }
   ],
   "schemes": ["https"],
   "paths": {
-    "/theme/{themeName}": {
-      "get": {
-        "tags": ["theme"],
-        "summary": "Finds Themes by name",
-        "description": "Each theme has a unique name, this will basically find a single theme by an exact name almost like an id",
-        "operationId": "findThemeByName",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "themeName",
-            "in": "path",
-            "description": "Theme name string is required and functions as id",
-            "required": true,
-            "type": "string",
-            "items": {
-              "type": "string",
-              "default": "available"
-            },
-            "collectionFormat": "csv"
-          }
-        ],
-        "security": [
-          {
-            "petstore_auth": ["write:pets", "read:pets"]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object"
-            }
-          },
-          "400": {
-            "description": "Invalid theme name value"
-          }
-        }
-      }
-    },
     "/user": {
       "post": {
         "tags": ["user"],
@@ -89,84 +42,33 @@
         ],
         "responses": {
           "201": {
-            "description": "successfully created user",
+            "description": "Successfully created user",
             "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "format": "int64"
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Nike Theme"
-                }
-              }
+              "$ref": "#/definitions/User"
             }
           },
           "400": {
-            "description": "Invalid theme name value"
+            "description": "Invalid user supplied"
           }
         }
-      }
-    },
-    "/user/login": {
+      },
       "get": {
-        "tags": ["Not Yet Implemented"],
-        "summary": "Logs user into the system",
-        "operationId": "loginUser",
+        "tags": ["user"],
+        "summary": "Get all users",
+        "operationId": "getAllUsers",
         "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The user name for login",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "type": "integer",
-                "format": "int32",
-                "description": "calls per hour allowed by the user"
-              },
-              "X-Expires-After": {
-                "type": "string",
-                "format": "date-time",
-                "description": "date in UTC when token expires"
-              }
-            },
+            "description": "Successful operation",
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
             }
           },
-          "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout": {
-      "get": {
-        "tags": ["Not Yet Implemented"],
-        "summary": "Logs out current logged in user session",
-        "operationId": "logoutUser",
-        "produces": ["application/json"],
-        "parameters": [],
-        "responses": {
-          "default": {
-            "description": "successful operation"
+          "500": {
+            "description": "Error occurred"
           }
         }
       }
@@ -186,6 +88,68 @@
             "type": "string"
           }
         ],
+        "/user/login": {
+          "get": {
+            "tags": ["Not Yet Implemented"],
+            "summary": "Logs user into the system",
+            "operationId": "loginUser",
+            "produces": ["application/json"],
+            "parameters": [
+              {
+                "name": "username",
+                "in": "query",
+                "description": "The user name for login",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "password",
+                "in": "query",
+                "description": "The password for login in clear text",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "successful operation",
+                "headers": {
+                  "X-Rate-Limit": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "calls per hour allowed by the user"
+                  },
+                  "X-Expires-After": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "date in UTC when token expires"
+                  }
+                },
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "400": {
+                "description": "Invalid username/password supplied"
+              }
+            }
+          }
+        },
+        "/user/logout": {
+          "get": {
+            "tags": ["Not Yet Implemented"],
+            "summary": "Logs out current logged in user session",
+            "operationId": "logoutUser",
+            "produces": ["application/json"],
+            "parameters": [],
+            "responses": {
+              "default": {
+                "description": "successful operation"
+              }
+            }
+          }
+        },
+
         "responses": {
           "200": {
             "description": "successful operation",
@@ -349,49 +313,7 @@
         }
       }
     },
-    "Theme": {
-      "type": "object",
-      "required": ["colors", "fontFamily", "fontSize", "name"],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string",
-          "example": "Nike Theme"
-        },
-        "fontSize": {
-          "type": "integer",
-          "example": 18
-        },
-        "fontFamily": {
-          "type": "string",
-          "example": "futura"
-        },
-        "inspiration": {
-          "type": "string",
-          "example": "https://www.nike.com/"
-        },
-        "colors": {
-          "type": "array",
-          "example": [
-            "",
-            "#111",
-            "#fff",
-            "#F5F3EE",
-            "#757575",
-            "#7e7e7e",
-            ", ",
-            ", ",
-            ""
-          ],
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
+
     "Credentials": {
       "type": "object",
       "required": ["password", "username"],
@@ -416,43 +338,8 @@
         "currentLocation": {
           "type": "string"
         },
-        "openToNewOpportunities": {
-          "type": "boolean"
-        },
         "profileIsPublic": {
           "type": "boolean"
-        },
-        "theme_name": {
-          "type": "string"
-        }
-      }
-    },
-    "User_profile_experience": {
-      "type": "object",
-      "properties": {
-        "jobTitle": {
-          "type": "string"
-        },
-        "jobDescription": {
-          "type": "string"
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "dateStart": {
-          "type": "string"
-        },
-        "dateEnd": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "location": {
-          "type": "string"
         }
       }
     },
@@ -468,114 +355,43 @@
         "programDescription": {
           "type": "string"
         },
-        "dateStart": {
-          "type": "string"
-        },
-        "dateEnd": {
-          "type": "string"
-        },
         "completed": {
           "type": "boolean"
         },
         "location": {
           "type": "string"
-        },
-        "topics": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
-    "User_profile_projects": {
+    "Rank": {
       "type": "object",
       "properties": {
         "title": {
           "type": "string"
         },
+        "level": {
+          "type": "number"
+        },
         "description": {
           "type": "string"
-        },
-        "dateStart": {
-          "type": "string"
-        },
-        "dateEnd": {
-          "type": "string"
-        },
-        "githubUrl": {
-          "type": "string"
-        },
-        "hostedUrl": {
-          "type": "string"
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "skills": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
-      }
-    },
-    "User_profile_references": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "relationship": {
-          "type": "string"
-        },
-        "contactInfo": {
-          "type": "string"
-        },
-        "yearsKnown": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "knownFromWhere": {
-          "type": "string"
+      },
+      "required": ["title", "level"]
+    }
+  },
+  "User_profile": {
+    "type": "object",
+    "properties": {
+      "education": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User_profile_education"
         }
-      }
-    },
-    "User_profile": {
-      "type": "object",
-      "properties": {
-        "experience": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/User_profile_experience"
-          }
-        },
-        "education": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/User_profile_education"
-          }
-        },
-        "projects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/User_profile_projects"
-          }
-        },
-        "skills": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "references": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/User_profile_references"
-          }
+      },
+      "ranks": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Rank"
         }
       }
     }

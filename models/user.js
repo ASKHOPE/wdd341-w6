@@ -37,9 +37,6 @@ module.exports = (mongoose) => {
       currentLocation: {
         type: String,
       },
-      openToNewOpportunities: {
-        type: Boolean,
-      },
       profileIsPublic: {
         type: Boolean,
       },
@@ -52,15 +49,6 @@ module.exports = (mongoose) => {
         type: [mongoose.SchemaTypes.Mixed],
       },
       education: {
-        type: [mongoose.SchemaTypes.Mixed],
-      },
-      projects: {
-        type: [mongoose.SchemaTypes.Mixed],
-      },
-      skills: {
-        type: [String],
-      },
-      references: {
         type: [mongoose.SchemaTypes.Mixed],
       },
     },
